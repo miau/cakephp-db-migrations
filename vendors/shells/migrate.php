@@ -1296,6 +1296,27 @@ class MigrateShell extends Shell
             'hostspec'  =>  $config['host'],
             'database'  =>  $config['database']
         );
+
+        // translation map from dbo_xxxxxx.php into MDB2_Driver_xxxxxx
+        $mdb2_driver_name = array(
+            'adodb'    => null,
+            'db2'      => null,
+            'firebird' => 'ibase',
+            'mssql'    => 'mssql',
+            'mysql'    => 'mysql',
+            'mysqli'   => 'mysqli',
+            'odbc'     => null,
+            'oracle'   => 'oci8',
+            'postgres' => 'pgsql',
+            'sqlite'   => 'sqlite',
+            'sybase'   => null,
+        );
+        if (!isset($mdb2_driver_name[$dsn['phptype']])) {
+            $this->err("Unable to find MDB2_Driver for {$dsn['phptype']}\n");
+        } else {
+            $dsn['phptype'] = $mdb2_driver_name[$dsn['phptype']];
+        }
+
         $options = array(
             'debug'         =>  'DEBUG',
             'portability'   =>  'DB_PORTABILITY_ALL'
