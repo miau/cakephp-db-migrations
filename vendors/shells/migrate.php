@@ -607,7 +607,7 @@ class MigrateShell extends Shell
                 $this->out('');
                 $time = gmdate("U");
                 if ($target_direction == 'up') {
-                    $r = $this->_db->exec("INSERT INTO {$this->schema_table} SET version = {$this->target_migration['id']}, datetime = $time");
+                    $r = $this->_db->exec("INSERT INTO {$this->schema_table} (version, datetime) VALUES ({$this->target_migration['id']}, $time)");
                     if (PEAR::isError($r)) {
                         $this->err($r->getDebugInfo());
                     } else {
@@ -661,7 +661,7 @@ class MigrateShell extends Shell
                 $this->out('');
                 $time = gmdate("U");
                 if ($direction == 'up') {
-                    $r = $this->_db->exec("INSERT INTO {$this->schema_table} SET version = {$migration['id']}, datetime = $time");
+                    $r = $this->_db->exec("INSERT INTO {$this->schema_table} (version, datetime) VALUES ({$migration['id']}, $time)");
                     if (PEAR::isError($r)) {
                         $this->err($r->getDebugInfo());
                     } else {
